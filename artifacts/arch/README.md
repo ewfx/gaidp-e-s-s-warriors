@@ -1,3 +1,8 @@
-Replace this file with a document that describes the architecture and design of your solution architecture. This may include
-    - An architecture drawing exported into a png/jpeg format image
-    - A document in pdf or md format that describes your solution
+# Architecture Diagrams
+
+
+## Chat Bot
+![Chat Bot](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/arch/Chatbot.jpg?raw=true)
+
+## CSV File Upload for Validation Generation
+![CSV File Upload for Validation Generation](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/arch/Data%20Generation.jpg?raw=true)
