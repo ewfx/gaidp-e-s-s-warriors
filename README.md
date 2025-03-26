@@ -21,7 +21,8 @@ A brief overview of your project and its purpose. Mention which problem statemen
 ## 🎥 Demo
 
 🔗 [Live Demo](#) (if applicable)  
-📽️ [Video Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/2025-03-26%2021-12-51.mkv?raw=true)
+📽️ [Video Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/2025-03-26%2021-12-51.mkv)
+
 🖼️ Screenshots:
 
 ![screenshot](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-26%20210406.png?raw=true)
