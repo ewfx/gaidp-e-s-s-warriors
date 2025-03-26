@@ -1,6 +1,7 @@
-# 🚀 Project Name
+# 🚀 Gen-Ai
 
 ## 📌 Table of Contents
+
 - [Introduction](#introduction)
 - [Demo](#demo)
 - [Inspiration](#inspiration)
@@ -14,53 +15,104 @@
 ---
 
 ## 🎯 Introduction
-A brief overview of your project and its purpose. Mention which problem statement are your attempting to solve. Keep it concise and engaging.
+
+A brief overview of your project and its purpose. Mention which problem statement you are attempting to solve. Keep it concise and engaging.
 
 ## 🎥 Demo
+
 🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
+📽️ [Video Demo](#) (if applicable)  
 🖼️ Screenshots:
 
 ![Screenshot 1](link-to-image)
 
 ## 💡 Inspiration
-I am solving problem of automating data profiling task. Given advancement in llm field their capabilities have imroved drastically.
-One of the biggest demand is to use llm to automate code generation from a task like human. However it still lacks that capability.
-So I have used domain knowledge to reduce the scope and hence increase the chances of it generating correct code.
+
+What inspired you to create this project? Describe the problem you're solving.
 
 ## ⚙️ What It Does
-Our project provides two interfaces. 
-   - 1  Chat interface through which user can talk to chatbot which has expertise on document and get the profiling tool
-   - 2  Upload csv file:- And it will do anomaly detection as well as run extract validation rule from document and run the functions on each data row.
+
+Explain the key features and functionalities of your project.
+
 ## 🛠️ How We Built It
-We have mainly used langraph and free llm from Google or Minstral AI. 
-Our idea was to use vector store to save document and validation rules tables  which can be later retrieved by llm according to user input and will be used
-for generating validation rule. This validation rule matches our predefined list function which encompasses most of the validation requirements as per the function.
-Then llm output list of field,validation_function, extra_function_argument which we used to execute the function and generate list  of errors
+
+Briefly outline the technologies, frameworks, and tools used in development.
+
 ## 🚧 Challenges We Faced
-llms are pretty unreliable.
-We were starting it newly
 
-## 🏃 How to Run
-1. Clone the repository  
-   ```sh
-   git clone https://github.com/your-repo.git
-   ```
-2. Install dependencies  
-   ```sh
-   npm install  # or pip install -r requirements.txt (for Python)
-   ```
-3. Run the project  
-   ```sh
-   npm start  # or python app.py
-   ```
+Describe the major technical or non-technical challenges your team encountered.
 
-## 🏗️ Tech Stack
-- 🔹 Frontend: React / Vue / Angular
-- 🔹 Backend: Node.js / FastAPI / Django
-- 🔹 Database: PostgreSQL / Firebase
-- 🔹 Other: OpenAI API / Twilio / Stripe
+## 🏢 Tech Stack
+
+- 🔹 Frontend: React
+- 🔹 Backend: FastAPI
+- 🔹 Other: OpenAI API, LangChain
 
 ## 👥 Team
-- **Your Name** - [GitHub](#) | [LinkedIn](#)
-- **Teammate 2** - [GitHub](#) | [LinkedIn](#)
+
+- **Aquib Nawaz** - [GitHub](https://github.com/) | [LinkedIn](#)
+- **Abhishek Singh** - [GitHub](#) | [LinkedIn](#)
+- **Amiya Patra** - [GitHub](https://github.com/amiyakpatra) | [LinkedIn](#)
+- **Arun Nagar** - [GitHub](https://github.com/arunnagar012) | [LinkedIn](#)
+- **Dherya Pratap Singh Rana** - [GitHub](https://github.com/ranaDherya) | [LinkedIn](#)
+
+This project consists of a frontend and a backend. Follow the instructions below to set up and run the application.
+
+## Prerequisites
+
+- **Node.js** (for frontend) - Download from [nodejs.org](https://nodejs.org/)
+- **Python 3.10+** (for backend) - Download from [python.org](https://www.python.org/)
+- **pip** (Python package manager)
+
+## Installation and Setup
+
+### 1️⃣ Clone the Repository
+
+```sh
+git clone https://github.com/ewfx/gaidp-e-s-s-warriors
+cd code/src
+```
+
+### 2️⃣ Backend Setup
+
+Navigate to the backend folder and install dependencies:
+
+```sh
+cd backend
+pip install -r requirements.txt
+```
+
+Add API keys to .env file inside backend folder
+API Keys for ---
+
+1.  [Google Ai Studio](https://aistudio.google.com/app/apikey)
+2.  [GROQ_API_KEY](https://console.groq.com/keys)
+3.  [MISTRAL AI](https://console.mistral.ai/api-keys)
+
+#### Run Backend Server
+
+```sh
+python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### 3️⃣ Frontend Setup
+
+Navigate to the frontend folder and install dependencies:
+
+```sh
+cd ../frontend
+npm install
+```
+
+#### Run Frontend Server
+
+```sh
+npm start
+```
+
+## Running the Project
+
+Once both frontend and backend servers are running:
+
+- Open `http://localhost:3000/` to access the frontend.
+- The backend API is accessible at `http://localhost:8000/`.
