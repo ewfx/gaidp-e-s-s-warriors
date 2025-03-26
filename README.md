@@ -27,20 +27,22 @@ A brief overview of your project and its purpose. Mention which problem statemen
 ![Screenshot 1](link-to-image)
 
 ## 💡 Inspiration
-
-What inspired you to create this project? Describe the problem you're solving.
+I am solving problem of automating data profiling task. Given advancement in llm field their capabilities have imroved drastically.
+One of the biggest demand is to use llm to automate code generation from a task like human. However it still lacks that capability.
+So I have used domain knowledge to reduce the scope and hence increase the chances of it generating correct code.
 
 ## ⚙️ What It Does
-
-Explain the key features and functionalities of your project.
-
+Our project provides two interfaces. 
+   - 1  Chat interface through which user can talk to chatbot which has expertise on document and get the profiling tool
+   - 2  Upload csv file:- And it will do anomaly detection as well as run extract validation rule from document and run the functions on each data row.
 ## 🛠️ How We Built It
-
-Briefly outline the technologies, frameworks, and tools used in development.
-
+We have mainly used langraph and free llm from Google or Minstral AI. 
+Our idea was to use vector store to save document and validation rules tables  which can be later retrieved by llm according to user input and will be used
+for generating validation rule. This validation rule matches our predefined list function which encompasses most of the validation requirements as per the function.
+Then llm output list of field,validation_function, extra_function_argument which we used to execute the function and generate list  of errors
 ## 🚧 Challenges We Faced
-
-Describe the major technical or non-technical challenges your team encountered.
+llms are pretty unreliable.
+We were starting it newly
 
 ## 🏢 Tech Stack
 
