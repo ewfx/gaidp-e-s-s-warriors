@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.ensemble import IsolationForest
+import os
 
 
 def detect_outliers(data, contamination=0.05):
@@ -29,7 +30,8 @@ def generate_report(original_data, cleaned_data, outliers_data):
     print(report)
 
     # Save the report
-    with open("data/temp/outlier_report.txt", "w") as f:
+
+    with open("data/temp/outlier_report.txt", "w+") as f:
         f.write(report)
 
     # Boxplot before and after outlier removal
@@ -43,7 +45,7 @@ def generate_report(original_data, cleaned_data, outliers_data):
     plt.title("After Outlier Removal")
 
     plt.savefig("data/temp/outlier_removal_visualization.png")
-    plt.show()
+    # plt.show()
 
 def run_anomaly_detection(data):
     cleaned_data, outliers_data = detect_outliers(data)

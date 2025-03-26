@@ -1,26 +1,18 @@
-import pandas as pd
-import importlib.util
 import os
-import ast, json
-from typing import List, Optional, Union
-from pydantic import BaseModel, Field
+from typing import Optional, Union, List
+
+import pandas as pd
+
 import sys
+
+from pydantic import BaseModel, Field
 from pydantic_core import from_json
+
+# from Core.codegen import ComplianceResponse
 from Core.generated_validations import *
+from Core.ValidationRuleClass import ComplianceResponse
+
 # Define Validation Rule Schema
-class ValidationRule(BaseModel):
-
-    description: str = Field(..., description="Detailed explanation of the requirement")
-    field_name: str = Field(..., description="field name")
-    validation_function_name: str = Field(..., description="Function from chat history which can be used for this or generated"
-                                                           "function name from code")
-    arguments: Optional[Union[List[int], List[str], List[List[str]]] ] =  Field(..., description="Extra aruments needed for function for.eg"
-                                                                                                 "for regex validator it will be regex pattern, for range validator it will be min and max value")
-    code: Optional[str] = Field(None, description="import statement and function without any main method. This function will be used later by main method")
-
-class ComplianceResponse(BaseModel):
-    """Respond to the user with this"""
-    extracted_rules: List[ValidationRule] = Field(..., description="List of extracted data validation rules")
 
 # Step 1: Write new functions to a Python file
 # GENERATED_FILE = os.path.dirname(os.path.abspath(__file__)) + os.sep + ("generated_validations.py")
@@ -80,23 +72,24 @@ def load_validation_rules(json_path):
 def code_execution(validation_rules, df):
     # Example Data Row
     # Validate Row
-    errors = ["index, field, value, error"]
+    errors = ["index, field, value, error\n"]
     for idx, row in df.iterrows():
         errors.extend(validate_row(idx, row, validation_rules))
-
+    # if not os.path.exists("../data/temp"):
+    #     os.makedirs("../data/temp")
     if errors:
         print("Validation Errors:")
         with open("data/temp/validation_errors.csv", "w") as f:
             for error in errors:
-                f.writelines(error)
+                f.write(error+"\n")
     else:
         print("All validations passed.")
 
 # # Step 5: Main Execution
-# if __name__ == "__main__":
-#     validation_rules = load_validation_rules("validation.json")
-#     fname = sys.argv[1]
-#     # Generate function file
-#     df = pd.read_csv(fname, skipinitialspace=True)
-#     code_execution(validation_rules, df)
+if __name__ == "__main__":
+    validation_rules = load_validation_rules("validation.json")
+    fname = sys.argv[1]
+    # Generate function file
+    df = pd.read_csv(fname, skipinitialspace=True)
+    code_execution(validation_rules, df)
 

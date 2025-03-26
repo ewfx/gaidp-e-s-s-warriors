@@ -86,14 +86,7 @@ async def upload_dataset_csv(payload):
                 print("Error: %s - %s." % (e.filename, e.strerror))
 
             process_df(df)
-            with zipfile.ZipFile("data/temp/data.zip", "w") as zip_file:
-                for root, dirs, files in os.walk("data/temp"):
-                    for file in files:
-                        file_path = os.path.join(root, file)
-                        zip_file.write(file_path, os.path.relpath(file_path, "data/temp"))
-
             headers = {"Content-Disposition": "attachment; filename=files.zip"}
-            user_message["csv_preview"] = json.loads(df.head().to_json())  # Send first 5 rows as preview
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, "w") as zip_file:
                 for root, dirs, files in os.walk("data/temp"):
@@ -115,12 +108,28 @@ def generate_validation_report(df, columns):
 
 
 def process_df(df):
+    folder = "data/temp"
+    df2 = df.copy(deep=True)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    else:
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
     columns = list(df.columns)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future_code_execution = executor.submit(generate_validation_report, df, columns)
-        future_anomaly_detection = executor.submit(run_anomaly_detection, df)
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    generate_validation_report(df2, columns)
+    run_anomaly_detection(df)
+    # future_code_execution = executor.submit(generate_validation_report, df2, columns)
+    # future_anomaly_detection = executor.submit(run_anomaly_detection, df)
 
     # Wait for both tasks to complete
-    future_code_execution.result()
-    future_anomaly_detection.result()
+    # future_code_execution.result()
+    # future_anomaly_detection.result()

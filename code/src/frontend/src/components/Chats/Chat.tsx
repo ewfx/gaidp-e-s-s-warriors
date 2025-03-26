@@ -17,17 +17,18 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 }) => {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [zipFile, setZipFile] = useState<Blob | null>(null); // Store received ZIP file
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chats]);
+  }, [chats, zipFile]);
 
   const sendMessage = async () => {
-    if (!input.trim() && !selectedFile) return; // Ensure something is sent
+    if (!input.trim() && !selectedFile) return;
 
     const formData = new FormData();
-    formData.append("message", input); // Send user query
+    formData.append("message", input);
 
     try {
       await axios.post(`${API_URL}/chats/${selectedChat}/send`, formData, {
@@ -36,7 +37,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
       fetchChats(selectedChat);
       setInput("");
-      // setSelectedFile(null);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -49,23 +49,37 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   };
 
   const uploadFile = async () => {
-    const formData = new FormData();
     if (!selectedFile) return;
-    if (selectedFile) {
-      formData.append("file", selectedFile); // Attach CSV file
-    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
     try {
-      const res = await axios.post(`${API_URL}/dataset`, formData, {
+      const response = await axios.post(`${API_URL}/dataset`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        responseType: "blob", // Expect a ZIP file as response
       });
-      console.log(res);
+
+      setZipFile(response.data); // Store the ZIP file blob
+
       fetchChats(selectedChat);
-      // setInput("");
       setSelectedFile(null);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error uploading file:", error);
     }
+  };
+
+  const downloadZip = () => {
+    if (!zipFile) return;
+
+    const url = window.URL.createObjectURL(zipFile);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.zip";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -81,6 +95,15 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             )}
           </div>
         ))}
+
+        {/* Show ZIP file received message and download button */}
+        {zipFile && (
+          <div className="chat-message bot">
+            📦 Your processed data is ready:
+            <button onClick={downloadZip}>📥 Download data.zip</button>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -94,7 +117,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
         />
-        {/* <input type="file" accept=".csv" onChange={handleFileChange} /> */}
         <button onClick={sendMessage}>Send</button>
       </div>
     </div>

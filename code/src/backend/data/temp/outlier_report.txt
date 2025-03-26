@@ -1,0 +1,7 @@
+
+    Outlier Detection and Removal Report
+    ====================================
+    Total Records: 2
+    Records Identified as Outliers: 0
+    Records After Outlier Removal: 2
+    
