@@ -8,7 +8,7 @@ import sys
 from pydantic_core import from_json
 
 from Core.codegen import ComplianceResponse
-from generated_validations import *
+from Core.generated_validations import *
 # Define Validation Rule Schema
 
 # Step 1: Write new functions to a Python file
