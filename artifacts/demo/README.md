@@ -1,3 +1,19 @@
+## 🎥 Demo
+
+🔗 [Live Demo](#) (if applicable)  
+### 📽️ Video Demo
+### [Full Live Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Data%20Profiling%20Full%20Live%20Demo.mkv) 
+#### [Chat Bot Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/2025-03-26%2021-12-51.mkv)
+#### [CSV File Upload for Validation Generation Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Data-Profiling%20CSV%20Extraction%20Demo.mkv)
+
+### 🖼️ Screenshots:
+
+### Chat Bot
+![Chat Bot](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-26%20210406.png?raw=true)
+
+### CSV File Upload for Validation Generation
+![CSV Generation](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-27%20034311.png?eaw=true)
+
 LLm is used to generate validation rules file
 
 Sample validation file
