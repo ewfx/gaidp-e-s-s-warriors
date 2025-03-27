@@ -214,7 +214,8 @@ def extract_tool_calls(messages, curr_rules):
             vrule.arguments = [min(vrule.arguments[0], vrule.arguments[1]), max(vrule.arguments[0], vrule.arguments[1])]
         curr_rules.extracted_rules.append(vrule)
 
-def generate_rules(fields: List[str]):
+def generate_rules(fields: List[str], context=None):
+    
     graph = get_graph()
 
     step = 7
@@ -223,7 +224,7 @@ def generate_rules(fields: List[str]):
     for i in range(0, len(fields), step):
         message = "Field for corporate loan schedule {}".format(', '.join(fields[i:i + step]))
         print(f"{message}")
-        state = graph.invoke({"messages": [("user", message)], "recall_memories": [],
+        state = graph.invoke({"messages": [("user", message)], "recall_memories": context if context is not None else [], 
                       }, config=config)
         extract_tool_calls(state["messages"], rules_to_ret)
         # time.sleep(2)

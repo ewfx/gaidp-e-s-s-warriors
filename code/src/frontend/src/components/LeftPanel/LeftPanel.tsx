@@ -46,7 +46,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   return (
     <div className="left-panel">
       <div className="left-panel-header">
-        <h3>Chats</h3>
+        <h3>Chats History</h3>
         <button className="new-chat-btn" onClick={createNewChat}>
           + New Chat
         </button>

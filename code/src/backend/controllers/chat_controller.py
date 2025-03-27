@@ -3,6 +3,7 @@ import zipfile
 import pandas as pd
 import io
 from fastapi import HTTPException, Response
+from collections import OrderedDict
 
 from Core.anomalydetection import run_anomaly_detection
 from Core.codeexecution import code_execution
@@ -14,7 +15,7 @@ import concurrent.futures
 
 
 def get_chat_list():
-    return [{"id": chat_id, "name": f"Chat {chat_id.replace('chat', '')}"} for chat_id in chat_data.keys()]
+    return [{"id": chat_id, "name": f"Chat {chat_id.replace('chat', '')}"} for chat_id in reversed(chat_data.keys())]
 
 
 # Get chat messages by ID
@@ -56,6 +57,7 @@ def create_new_chat():
     new_chat_id = f"chat{index}"
     chat_data_index[0] = index + 1
     chat_data[new_chat_id] = []
+
     return {"id": new_chat_id, "name": f"Chat {index}"}
 
 
@@ -69,7 +71,7 @@ def delete_chat(chat_id: str):
 
 
 # Upload dataset
-async def upload_dataset_csv(payload):
+async def upload_dataset_csv(payload, bot=None):
     user_message = {}
     # ✅ Process CSV File if Uploaded
     if payload.get("file") and payload["file"].filename:  # Ensure file exists
@@ -85,7 +87,7 @@ async def upload_dataset_csv(payload):
             except OSError as e:
                 print("Error: %s - %s." % (e.filename, e.strerror))
 
-            process_df(df)
+            process_df(df, bot)
             headers = {"Content-Disposition": "attachment; filename=files.zip"}
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, "w") as zip_file:
@@ -102,12 +104,15 @@ async def upload_dataset_csv(payload):
         # return {"message": "Uploaded Successfully"}
 
 
-def generate_validation_report(df, columns):
+def generate_validation_report(df, columns, context=None):
     rules = generate_rules(columns)
     code_execution(rules, df)
 
 
-def process_df(df):
+def process_df(df, bot=None):
+    if bot is not None:
+        context=bot.chat_history
+
     folder = "data/temp"
     df2 = df.copy(deep=True)
     if not os.path.exists(folder):
@@ -125,7 +130,7 @@ def process_df(df):
     columns = list(df.columns)
 
     # with concurrent.futures.ThreadPoolExecutor() as executor:
-    generate_validation_report(df2, columns)
+    generate_validation_report(df2, columns, context)
     run_anomaly_detection(df)
     # future_code_execution = executor.submit(generate_validation_report, df2, columns)
     # future_anomaly_detection = executor.submit(run_anomaly_detection, df)
