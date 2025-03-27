@@ -1,4 +1,4 @@
-# 🚀 Gen-Ai
+# 🚀 Gen-Ai Data Profiling
 
 ## 📌 Table of Contents
 
@@ -21,21 +21,27 @@ A brief overview of your project and its purpose. Mention which problem statemen
 ## 🎥 Demo
 
 🔗 [Live Demo](#) (if applicable)  
-📽️ [Video Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/2025-03-26%2021-12-51.mkv)
+### 📽️ Video Demo
+#### [Chat Bot Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/2025-03-26%2021-12-51.mkv)
+#### [CSV File Upload for Validation Generation Demo](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Data-Profiling%20CSV%20Extraction%20Demo.mkv)
 
-🖼️ Screenshots:
+### 🖼️ Screenshots:
 
-![screenshot](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-26%20210406.png?raw=true)
+### Chat Bot
+![Chat Bot](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-26%20210406.png?raw=true)
+
+### CSV File Upload for Validation Generation
+![CSV Generation](https://github.com/ewfx/gaidp-e-s-s-warriors/blob/main/artifacts/demo/Screenshot%202025-03-27%20034311.png?eaw=true)
 
 ## 💡 Inspiration
-I am solving problem of automating data profiling task. Given advancement in llm field their capabilities have imroved drastically.
+We are solving problem of automating data profiling task. Given advancement in llm field their capabilities have imroved drastically.
 One of the biggest demand is to use llm to automate code generation from a task like human. However it still lacks that capability.
-So I have used domain knowledge to reduce the scope and hence increase the chances of it generating correct code.
+So we have used domain knowledge to reduce the scope and hence increase the chances of it generating correct code.
 
 ## ⚙️ What It Does
 Our project provides two interfaces. 
    - 1  Chat interface through which user can talk to chatbot which has expertise on document and get the profiling tool
-   - 2  Upload csv file:- And it will do anomaly detection as well as run extract validation rule from document and run the functions on each data row.
+   - 2  Upload csv file:- And it will do anomaly detection as well as run extracted validation rule from document and generate zip file containing report for both anomaly detection and validation error.
 ## 🛠️ How We Built It
 We have mainly used langraph and free llm from Google or Minstral AI. 
 Our idea was to use vector store to save document and validation rules tables  which can be later retrieved by llm according to user input and will be used
@@ -49,12 +55,12 @@ We were starting it newly
 
 - 🔹 Frontend: React
 - 🔹 Backend: FastAPI
-- 🔹 Other: OpenAI API, LangChain
+- 🔹 LLM: Gemini API, Mistral API, LangChain, LangGraph
 
 ## 👥 Team
 
-- **Aquib Nawaz** - [GitHub](https://github.com/) | [LinkedIn](#)
-- **Abhishek Singh** - [GitHub](#) | [LinkedIn](#)
+- **Aquib Nawaz** - [GitHub](https://github.com/aquib-nawaz) | [LinkedIn](#)
+- **Abhishek Singh** - [GitHub](https://github.com/abhishek209) | [LinkedIn](#)
 - **Amiya Patra** - [GitHub](https://github.com/amiyakpatra) | [LinkedIn](#)
 - **Arun Nagar** - [GitHub](https://github.com/arunnagar012) | [LinkedIn](#)
 - **Dherya Pratap Singh Rana** - [GitHub](https://github.com/ranaDherya) | [LinkedIn](#)
