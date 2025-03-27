@@ -4,25 +4,35 @@ import "./Chat.css";
 
 interface ChatAreaProps {
   selectedChat: string;
-  chats: { id: number; sender: string; message: string; fileUrl?: string }[];
-  fetchChats: (chatId: string) => void;
 }
 
 const API_URL = "http://localhost:8000/api/v1";
 
-const ChatArea: React.FC<ChatAreaProps> = ({
-  selectedChat,
-  chats,
-  fetchChats,
-}) => {
+const ChatArea: React.FC<ChatAreaProps> = ({ selectedChat }) => {
+  const [messages, setMessages] = useState<
+    { id: number; sender: string; message: string; fileUrl?: string }[]
+  >([]);
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [zipFile, setZipFile] = useState<Blob | null>(null); // Store received ZIP file
+  const [zipFile, setZipFile] = useState<Blob | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    fetchMessages();
+  }, [selectedChat]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chats, zipFile]);
+  }, [messages, zipFile]);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/chats/${selectedChat}`);
+      setMessages(response.data);
+    } catch (error) {
+      console.error("Error fetching chat messages:", error);
+    }
+  };
 
   const sendMessage = async () => {
     if (!input.trim() && !selectedFile) return;
@@ -30,13 +40,21 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     const formData = new FormData();
     formData.append("message", input);
 
-    try {
-      await axios.post(`${API_URL}/chats/${selectedChat}/send`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    // if (selectedFile) {
+    //   formData.append("file", selectedFile);
+    // }
 
-      fetchChats(selectedChat);
+    try {
+      const response = await axios.post(
+        `${API_URL}/chats/${selectedChat}/send`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      setMessages((prev) => [...prev, response.data]);
       setInput("");
+      setSelectedFile(null);
+      fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -57,67 +75,37 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     try {
       const response = await axios.post(`${API_URL}/dataset`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        responseType: "blob", // Expect a ZIP file as response
+        responseType: "blob",
       });
 
-      setZipFile(response.data); // Store the ZIP file blob
-
-      fetchChats(selectedChat);
+      setZipFile(response.data);
       setSelectedFile(null);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-  const downloadZip = () => {
-    if (!zipFile) return;
-
-    const url = window.URL.createObjectURL(zipFile);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "data.zip";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  };
-
   return (
     <div className="chat-area">
       <div className="chat-history">
-        {chats.map((chat) => (
+        {messages.map((chat) => (
           <div key={chat.id} className={`chat-message ${chat.sender}`}>
             {chat.message}
-            {chat.fileUrl && (
-              <a href={chat.fileUrl} target="_blank" rel="noopener noreferrer">
-                📂 {chat.fileUrl.split("/").pop()}
-              </a>
-            )}
           </div>
         ))}
-
-        {/* Show ZIP file received message and download button */}
-        {zipFile && (
-          <div className="chat-message bot">
-            📦 Your processed data is ready:
-            <button onClick={downloadZip}>📥 Download data.zip</button>
-          </div>
-        )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="chat-input">
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        <button onClick={uploadFile}>Upload</button>
-      </div>
       <div className="chat-input">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage} disabled={!input.trim() && !selectedFile}>
+          Send
+        </button>
       </div>
     </div>
   );

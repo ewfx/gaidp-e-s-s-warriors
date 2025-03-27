@@ -39,6 +39,6 @@ async def remove_chat(chat_id: str):
     return delete_chat(chat_id)
 
 @router.post("/dataset")
-async def upload_dataset(file: UploadFile):
+async def upload_dataset(request: Request, file: UploadFile):
     payload = {"file": file}
-    return await upload_dataset_csv(payload)
+    return await upload_dataset_csv(payload, request.app.state.chatbot)
